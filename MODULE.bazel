@@ -1,0 +1,19 @@
+git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+bazel_dep(name = "bazel_skylib",
+          version = "1.6.1")
+
+bazel_dep(name = "platforms",
+          version = "0.0.9")
+
+git_repository(
+    name = "com_google_absl",
+    remote = "https://github.com/abseil/abseil-cpp.git",
+    branch = "master",
+)
+
+git_repository(
+    name = "ink_stroke_modeler",
+    remote = "https://github.com/google/ink-stroke-modeler.git",
+    branch = "main",
+)

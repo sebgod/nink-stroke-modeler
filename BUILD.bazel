@@ -1,0 +1,7 @@
+cc_library(
+    name = "nink",
+    srcs = [],
+    hdrs = [],
+    deps = ["@ink_stroke_modeler//ink_stroke_modeler:stroke_modeler"],
+    visibility = ["//visibility:public"]
+)
