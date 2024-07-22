@@ -8,6 +8,10 @@ on:
 
 env:
   BAZEL_VERSION: 7.2.1
+  VERSION_PREFIX: 1.0.${{ github.run_number }}
+  VERSION_REV: ${{ github.run_attempt }}
+  VERSION_SUFFIX: +${{ github.sha }}
+  BUILD_CONF: Release
 
 jobs:
   build-win:
@@ -57,7 +61,7 @@ jobs:
         name: Linux-nink-x64
         path: bazel-bin/*.so
           
-  build-nuget:
+  build-and-publish-nuget:
     runs-on: ubuntu-latest
 
     needs: [build-win, build-linux-x64]
@@ -72,9 +76,19 @@ jobs:
         merge-multiple: false
 
     - name: List artifacts
-      run: ls -la bazel-bin/
+      run: ls -rla bazel-bin/
 
     - name: Install .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0
+
+    - name: Pack nuget
+      run: dotnet pack --version-suffix $VERSION_SUFFIX -p:VersionPrefix=${VERSION_PREFIX}${VERSION_REV} -p:FileVersion=${VERSION_PREFIX}.${VERSION_REV} -p:ContinuousIntegrationBuild=true
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nuget-packages
+        path: '**/*.nupkg'
+        retention-days: 5
