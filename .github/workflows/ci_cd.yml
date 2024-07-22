@@ -10,7 +10,30 @@ env:
   BAZEL_VERSION: 7.2.1
 
 jobs:
-  build:
+  build-win:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+  
+    - name: Download bazel installer
+      shell: bash
+      run: curl -OL https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-windows-x86_64.exe
+
+    - name: Install bazel
+      shell: bash
+      run: ./bazel-${BAZEL_VERSION}-windows-x86_64.exe
+
+    - name: Bazel build all
+      run: bazel build --config=vs2022 //:all
+
+    - name: Upload libnink.* (x64)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-nink-x64
+        path: bazel-bin/*.dll
+
+  build-linux-x64:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,13 +49,32 @@ jobs:
       run: chmod +x bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh && sudo ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh && rm bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
 
     - name: Bazel build all
-      run: bazel build //:all
+      run: bazel build --config=gcc //:all
 
     - name: Upload libnink.* (x64)
-      uses: actions/upload-artifact@v4.3.4
+      uses: actions/upload-artifact@v4
       with:
-        # Artifact name
         name: Linux-nink-x64
-        # A file, directory or wildcard pattern that describes what to upload
-        path: bazel-bin/*
+        path: bazel-bin/*.so
           
+  build-nuget:
+    runs-on: ubuntu-latest
+
+    needs: [build-win, build-linux-x64]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v4
+      with:
+        path: bazel-bin
+        merge-multiple: false
+
+    - name: List artifacts
+      run: ls -la bazel-bin/
+
+    - name: Install .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0

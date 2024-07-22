@@ -1,5 +1,10 @@
-cc_library(
+cc_shared_library(
     name = "nink",
+    deps = [":nink_static"],
+)
+
+cc_library(
+    name = "nink_static",
     srcs = ["src/ext_iface.cc"],
     hdrs = [],
     deps = ["@ink_stroke_modeler//ink_stroke_modeler:stroke_modeler"],

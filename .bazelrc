@@ -1,1 +1,6 @@
-build --cxxopt=-std=c++2a
+build:gcc --cxxopt=-std=c++2a
+
+# VS2022
+build:vs2022 --cxxopt=/std:c++20
+build:vs2022 --copt=-D_USE_MATH_DEFINES 
+build:vs2022 --enable_runfiles # https://github.com/bazelbuild/bazel/issues/8843
