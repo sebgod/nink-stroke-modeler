@@ -12,6 +12,10 @@
     <FileVersion>1.0.0</FileVersion>
     <PackageId>NInk.StokeModeler</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/sebgod/nink-stroke-modeler.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Version)' == '' ">
@@ -32,5 +36,6 @@
     <None Include="bazel-bin/Linux-nink-x64/libnink.so" PackagePath="runtimes/linux-x64/native" Pack="True" />
     <None Include="bazel-bin/Windows-nink-x64/nink.dll" PackagePath="runtimes/win-x64/native" Pack="True" />
     <None Include="README.md" Pack="true" PackagePath='/' />
+    <None Include="LICENSE" Pack="True" PackagePath="/" />
   </ItemGroup>
 </Project>
