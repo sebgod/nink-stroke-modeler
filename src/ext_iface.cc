@@ -18,7 +18,7 @@ extern "C" {
         const ink::stroke_model::StylusStateModelerParams stylusStateModelerParams
     )
     {
-        ink::stroke_model::StrokeModeler* modeler = new ink::stroke_model::StrokeModeler();
+        auto modeler = new ink::stroke_model::StrokeModeler;
         ink::stroke_model::StrokeModelParams params {
             .wobble_smoother_params = wobbleParams,
             .position_modeler_params = positionModelerParams,
