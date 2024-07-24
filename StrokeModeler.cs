@@ -29,7 +29,7 @@ public partial class StrokeModeler(
         StylusStateModelerParams stylusStateModelerParams
     );
 
-    [LibraryImport("nink", EntryPoint = "nink_init_modeler")]
+    [LibraryImport("nink", EntryPoint = "nink_free_modeler")]
     internal static partial void FreeStrokeModeler(nint modeler);
 
     [LibraryImport("nink", EntryPoint = "nink_update")]
