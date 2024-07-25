@@ -20,11 +20,11 @@ extern "C" {
     {
         auto modeler = new ink::stroke_model::StrokeModeler;
         ink::stroke_model::StrokeModelParams params {
-            .wobble_smoother_params = wobbleParams,
-            .position_modeler_params = positionModelerParams,
-            .sampling_params = samplingParams,
-            .stylus_state_modeler_params = stylusStateModelerParams,
-            .prediction_params = ink::stroke_model::StrokeEndPredictorParams{}
+            .wobble_smoother_params{ wobbleParams},
+            .position_modeler_params{ positionModelerParams },
+            .sampling_params{ samplingParams },
+            .stylus_state_modeler_params{ stylusStateModelerParams },
+            .prediction_params { ink::stroke_model::StrokeEndPredictorParams{} }
         };
 
         if (modeler->Reset(params).ok()) {
