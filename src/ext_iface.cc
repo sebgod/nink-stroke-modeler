@@ -41,6 +41,7 @@ extern "C" {
         ink::stroke_model::Input::EventType eventType,
         ink::stroke_model::Vec2 position,
         double time,
+        float pressure,
         ResultListHandle* resultListHandle,
         ink::stroke_model::Result** results,
         int32_t* resultsCount
@@ -50,6 +51,7 @@ extern "C" {
             .event_type{ eventType },
             .position{ position },
             .time{ ink::stroke_model::Time(time) },
+            .pressure = pressure
         };
         auto resultsVec = new std::vector<ink::stroke_model::Result>();
         *resultListHandle = reinterpret_cast<ResultListHandle>(resultsVec);

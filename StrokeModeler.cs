@@ -14,9 +14,9 @@ public partial class StrokeModeler(
 
     private bool disposedValue;
 
-    public unsafe SafeHandle Update(EventType eventType, in Vec2 position, DateTime time, out Result* results, out int resultsCount)
+    public unsafe SafeHandle Update(EventType eventType, in Vec2 position, DateTime time, float pressure, out Result* results, out int resultsCount)
     {
-        Update(_modeler, eventType, position, time.ToOADate(), out var resultListHandle, out results, out resultsCount);
+        Update(_modeler, eventType, position, time.ToOADate(), pressure, out var resultListHandle, out results, out resultsCount);
 
         return resultListHandle;
     }
@@ -38,6 +38,7 @@ public partial class StrokeModeler(
         EventType eventType,
         Vec2 position,
         double time,
+        float pressure,
         out ItemsSafeHandle resultListHandle,
         out Result* results,
         out int resultsCount
