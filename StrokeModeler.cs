@@ -14,12 +14,14 @@ public partial class StrokeModeler(
 
     private bool disposedValue;
 
-    public unsafe SafeHandle Update(EventType eventType, in Vec2 position, DateTime time, float pressure, out Result* results, out int resultsCount)
+    public unsafe SafeHandle Update(EventType eventType, in Vec2 position, TimeSpan time, float pressure, out Result* results, out int resultsCount)
     {
-        Update(_modeler, eventType, position, (time - DateTime.UnixEpoch).TotalMilliseconds, pressure, out var resultListHandle, out results, out resultsCount);
+        Update(_modeler, eventType, position, time.TotalSeconds, pressure, out var resultListHandle, out results, out resultsCount);
 
         return resultListHandle;
     }
+
+    public unsafe bool Reset() => Reset(_modeler);
 
     [LibraryImport("nink", EntryPoint = "nink_init_modeler")]
     internal static partial nint NewStrokeModeler(
@@ -43,6 +45,10 @@ public partial class StrokeModeler(
         out Result* results,
         out int resultsCount
     );
+
+    [LibraryImport("nink", EntryPoint = "nink_reset")]
+    [return: MarshalAs(UnmanagedType.I1)]
+    internal static partial bool Reset(nint modeler);
 
     [LibraryImport("nink", EntryPoint = "nink_release_results_handle")]
     [return: MarshalAs(UnmanagedType.I1)]

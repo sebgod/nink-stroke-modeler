@@ -36,6 +36,11 @@ extern "C" {
         }
     }
 
+    LIBRARY_API bool nink_reset(ink::stroke_model::StrokeModeler* modeler)
+    {
+        return modeler->Reset().ok();
+    }
+
     LIBRARY_API bool nink_update(
         ink::stroke_model::StrokeModeler* modeler,
         ink::stroke_model::Input::EventType eventType,
