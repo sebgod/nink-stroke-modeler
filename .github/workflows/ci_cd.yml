@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 env:
-  BAZEL_VERSION: 7.2.1
+  BAZEL_VERSION: 7.3.0
   VERSION_PREFIX: 1.0.${{ github.run_number }}
   VERSION_REV: ${{ github.run_attempt }}
   VERSION_SUFFIX: +${{ github.sha }}
@@ -28,13 +28,25 @@ jobs:
       shell: bash
       run: ./bazel-${BAZEL_VERSION}-windows-x86_64.exe
 
-    - name: Bazel build all
-      run: bazel build --config=vs2022 //:all
+    - name: Bazel build all (x64)
+      run: bazel build --config=vs2022 --cpu=x64_windows //:all
 
     - name: Upload libnink.* (x64)
       uses: actions/upload-artifact@v4
       with:
         name: Windows-nink-x64
+        path: bazel-bin/*.dll
+
+    - name: Bazel clean
+      run: bazel clean
+
+    - name: Bazel build all (ARM64)
+      run: bazel build --config=vs2022 --cpu=arm64_windows //:all
+
+    - name: Upload libnink.* (ARM64)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-nink-arm64
         path: bazel-bin/*.dll
 
   build-linux-x64:
@@ -69,7 +81,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Download Linux artifact
+    - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
         path: bazel-bin
@@ -77,11 +89,6 @@ jobs:
 
     - name: List artifacts
       run: ls -rla bazel-bin/
-
-    - name: Install .NET 8
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0
 
     - name: Pack nuget
       run: dotnet pack --version-suffix $VERSION_SUFFIX -p:VersionPrefix=${VERSION_PREFIX}${VERSION_REV} -p:FileVersion=${VERSION_PREFIX}.${VERSION_REV} -p:ContinuousIntegrationBuild=true
