@@ -1,3 +1,11 @@
+platform(
+    name = "windows_arm64",
+    constraint_values = [
+       "@platforms//cpu:arm64",
+       "@platforms//os:windows",
+    ],
+)
+
 cc_shared_library(
     name = "nink",
     deps = [":nink_static"],
