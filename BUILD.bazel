@@ -6,6 +6,32 @@ platform(
     ],
 )
 
+platform(
+    name = "windows_x64",
+    constraint_values = [
+       "@platforms//cpu:x86_64",
+       "@platforms//os:windows",
+    ],
+)
+
+platform(
+    name = "x64_windows-clang-cl",
+    constraint_values = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:windows",
+        "@bazel_tools//tools/cpp:clang-cl",
+    ],
+)
+
+platform(
+    name = "arm64_windows-clang-cl",
+    constraint_values = [
+        "@platforms//cpu:arm64",
+        "@platforms//os:windows",
+        "@bazel_tools//tools/cpp:clang-cl",
+    ],
+)
+
 cc_shared_library(
     name = "nink",
     deps = [":nink_static"],
