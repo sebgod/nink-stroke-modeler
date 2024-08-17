@@ -37,18 +37,6 @@ jobs:
         name: Windows-nink-x64
         path: bazel-bin/*.dll
 
-    - name: Bazel clean
-      run: bazel clean
-
-    - name: Bazel build all (ARM64)
-      run: bazel build --config=vs2022 --platforms=//:windows_arm64 --toolchain_resolution_debug=.* //:all
-
-    - name: Upload libnink.* (ARM64)
-      uses: actions/upload-artifact@v4
-      with:
-        name: Windows-nink-arm64
-        path: bazel-bin/*.dll
-
   build-linux-x64:
     runs-on: ubuntu-latest
 

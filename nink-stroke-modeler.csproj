@@ -43,6 +43,8 @@
   <ItemGroup>
     <None Include="bazel-bin/Linux-nink-x64/libnink.so" PackagePath="runtimes/linux-x64/native" Pack="True" />
     <None Include="bazel-bin/Windows-nink-x64/nink.dll" PackagePath="runtimes/win-x64/native" Pack="True" />
+    <!-- precompiled binary added here until we manage to cross-compile for ARM64 on windows-latest using bazel -->
+    <None Include="precompiled/win_arm64/nink.dll" PackagePath="runtimes/win-arm64/native" Pack="True" />
     <None Include="README.md" Pack="true" PackagePath='/' />
     <None Include="LICENSE" Pack="True" PackagePath="/" />
   </ItemGroup>
